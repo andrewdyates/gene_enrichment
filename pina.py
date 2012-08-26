@@ -29,6 +29,8 @@ class PINAEnriched(Enriched):
 
   def exists(self, x, y):
     return super(PINAEnriched, self).exists(clean(x), clean(y))
+  def is_in(self, x):
+    return super(PINAEnriched, self).is_in(clean(x))
 
   def pair_indices(self, varlist):
     cleaned_varlist = [clean(s) for s in varlist]

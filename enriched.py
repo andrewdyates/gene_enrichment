@@ -2,7 +2,12 @@
 from py_symmetric_matrix import *
 
 class Enriched(object):
-  """Enrichment pair set. Intented for use with gene enrichment, but could be used for any ranking."""
+  """Enrichment pair set. Intented for use with gene enrichment, but could be used for any ranking.
+
+  Attributes:
+    n_pairs: int number of pairs
+    vars: set([str]) of unique gene names in pairs
+  """
 
   def __init__(self, pairs):
     """Initialize.
@@ -31,6 +36,9 @@ class Enriched(object):
     if not (x in self.vars and y in self.vars):
       return False
     return y in self.d_pairs[x]
+
+  def is_in(self, x):
+    return x in self.vars
 
   def pair_indices(self, varlist):
     """Return indices of self.pairs for sym dependency matrix indexed by varlist.
