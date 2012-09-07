@@ -23,11 +23,14 @@ def make_enrichment_curve_figure(Ranks, title=None, plotpath=None):
   if title is None:
     title = "Gene Enrichment"
   plt.clf(); plt.cla()
-  plt.legend()
+  plot_enrichments(Ranks)
+  # top left, 8px
+  leg = plt.legend(loc=2)
   plt.xlabel('Rank')
   plt.ylabel('# Matched')
+  ltext  = leg.get_texts()  # all the text.Text instance in the legend
+  plt.setp(ltext, fontsize='xx-small')    # the legend text fontsize
   plt.title(title)
-  plot_enrichments(Ranks)
   if plotpath is None:
     plt.show()
   else:
