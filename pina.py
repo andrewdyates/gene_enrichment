@@ -46,14 +46,15 @@ class PINAEnriched(Enriched):
     return ",".join(sorted((x,y)))
   
   def _add_pair_type(self, pair, row):
-    hash = self._hash(*pair)
+    myhash = self._hash(*pair)
     # Corresponds to "Interaction detection method(s)"
     s = row[6]
     m = RX_INTERACT.match(s)
     if not m:
-      print "!", s
-      sys.exit(1)
-    self.pair_type[hash] = m.group(1)
+      print "WARNING: interaction type value '%s' does not fit expected pattern for pair %s." % (s, str(pair))
+      self.pair_type[myhash] = s
+    else:
+      self.pair_type[myhash] = m.group(1)
     
   def get_relation_types(self, x, y):
     """Return list of relationship types for gene pair x, y."""
