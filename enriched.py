@@ -27,6 +27,7 @@ class Enriched(object):
         self.n_pairs += 1
         self.d_pairs.setdefault(x, set()).add(y)
         self.vars.add(x)
+        self.vars.add(y)
       
   def exists(self, x, y):
     """Return if (x, y) variables are a pair in this Enrichment set."""
@@ -73,3 +74,17 @@ class Enriched(object):
       if v in self.vars:
         idxs.append(i)
     return idxs
+
+  def return_adj_matrix(self):
+    """Return a symmetric numpy boolean adjacency matrix."""
+    varlist = sorted(self.vars)
+    var_idx = dict((s,i) for i,s in enumerate(varlist))
+    n = len(varlist)
+    ADJ = np.zeros((n,n), dtype=np.bool)
+    for i,s in enumerate(varlist):
+      links = [var_idx[k] for k in self.d_pairs.get(s,[])]
+      if links:
+        ADJ[i,:][:,links] = True
+        ADJ[:,i][links,:] = True
+    assert self.n_pairs*2 == np.sum(ADJ)
+    return varlist, ADJ
